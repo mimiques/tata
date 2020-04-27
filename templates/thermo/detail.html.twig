@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="col-lg-6 ">
+        <canvas id="graph1"></canvas>
+    </div>
+</div>
+        <li>{{ thermo.date }}</li>
+    <li>{{ thermo.temperature }}</li>
+    <li>{{ thermo.temperature }}</li>
+
+<script>
+    var ctx = document.getElementById('graph1').getContext('2d')
+
+    var data = {
+        labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
+        datasets: [{
+
+            label:'temperature',
+            data :['19','22', '19', '23' ]
+        },
+            {
+                label: 'hygrometrie',
+                data: ['49','50','48','47']
+            },
+        ]
+    }
+    var option
+    var config = {
+        type:'line',
+        data: data ,
+        option: option
+    }
+    var graph1 = new Chart(ctx, config)
+</script>
+    {%endblock %}
+

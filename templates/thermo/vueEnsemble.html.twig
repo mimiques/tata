@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <link href="{{ asset('courbe.css') }}" rel="stylesheet">
+
+<div class="container">
+    <div class="text-center">
+        <br>
+        <h2>Mes thermo-hygromètres</h2>
+    </div>
+    {% if app.user %}
+        <div class="mb-3">
+            <h1>{{ app.user.nom }}</h1>
+        </div>
+    {% endif %}
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <!--formulaire de recherche-->
+            {{ form_start }}
+
+            {{ form_end }}
+        </div>
+            <div class ="col-md-9">
+                <div class="grid">
+                    <canvas id="graph1"></canvas>
+                    <canvas id="graph2"></canvas>
+                    <canvas id="graph3"></canvas>
+                    <canvas id="graph4"></canvas>
+
+
+
+                </div>
+    </div>
+
+</div>
+</div>
+
+
+    </body>
+    </html>
+
+    <script>
+        var ctx = document.getElementById('graph1').getContext('2d')
+
+        var data = {
+            labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
+            datasets: [{
+
+                label:'temperature',
+                data :['19','22', '19', '23' ]
+            },
+                {
+                    label: 'hygrometrie',
+                    data: ['49','50','48','47']
+                },
+            ]
+        }
+        var option
+        var config = {
+            type:'line',
+            data: data ,
+            option: option
+        }
+        var graph1 = new Chart(ctx, config)
+
+        //graph2
+        var ctx = document.getElementById('graph2').getContext('2d')
+
+        var data = {
+            labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
+            datasets: [{
+
+                label:'temperature',
+                data :['19','22', '19', '23' ]
+            },
+                {
+                    label: 'hygrometrie',
+                    data: ['49','50','48','47']
+                },
+            ]
+        }
+        var option
+        var config = {
+            type:'line',
+            data: data ,
+            option: option
+        }
+        //graph3
+        var graph3 = new Chart(ctx, config)
+        var ctx = document.getElementById('graph3').getContext('2d')
+
+        var data = {
+            labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
+            datasets: [{
+
+                label:'temperature',
+                data :['19','22', '19', '23' ]
+            },
+                {
+                    label: 'hygrometrie',
+                    data: ['49','50','48','47']
+                },
+            ]
+        }
+        var option
+        var config = {
+            type:'line',
+            data: data ,
+            option: option
+        }
+        var graph3 = new Chart(ctx, config)
+
+        //graph4
+        var ctx = document.getElementById('graph4').getContext('2d')
+
+        var data = {
+            labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
+            datasets: [{
+
+                label:'temperature',
+                data :['19','22', '19', '23' ]
+            },
+                {
+                    label: 'hygrometrie',
+                    data: ['49','50','48','47']
+                },
+            ]
+        }
+        var option
+        var config = {
+            type:'line',
+            data: data ,
+            option: option
+        }
+        var graph4 = new Chart(ctx, config)
+    </script>
+
+
+{% endblock %}
