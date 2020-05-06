@@ -1,16 +1,86 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="text-center">
+    <br>
+    <h2>Salle nom</h2>
+</div>
 
 <div class="container">
-    <div class="col-lg-6 ">
-        <canvas id="graph1"></canvas>
+
+
+
+    <div class="row">
+        <div class="col-md-2">
+            <h4>Rechercher:</h4>
+            <!--formulaire de recherche-->
+            {# {{ form.date|date("m/d/y") }}#}
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Entre</label>
+                <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Et</label>
+                <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
+            </div>
+            <div class="col-lg-2">
+                <button type="submit" class="btn btn-lg btn-primary">Rechercher</button>
+            </div>
+        </div>
+        <div class="col-lg-6 ">
+            <canvas id="graph1"></canvas>
+
+            <div class="form-group">
+                <label for="copier/coller"></label>
+                <textarea class="form-control" id="copier/coller" rows="3">
+
+                </textarea>
+                <button type="submit" class="btn btn-sm btn-primary" name="enregistrer" value="enregistrer">Enregistrer</button>
+
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <h4 class="text-center">Tableau</h4>
+           <table>
+               <colgroup span="1" style="background-color: #eee;"></colgroup>
+               <tr>
+                 <th>date</th>
+                   <th>temperature</th>
+                <th>hygrometrie</th>
+               </tr>
+               <tr>
+                   <td>01/03/20</td>
+                   <td>19</td>
+                   <td>49</td>
+
+               </tr>
+               <tr>
+                   <td>02/03/20</td>
+                   <td>22</td>
+                   <td>50</td>
+
+               </tr>
+               <tr>
+                   <td>03/03/20</td>
+                   <td>19</td>
+                   <td>48</td>
+
+               </tr>
+               <tr>
+                   <td>04/03/20</td>
+                   <td>25</td>
+                   <td>48</td>
+
+               </tr>
+           </table>
+        </div>
     </div>
 </div>
-        <li>{{ thermo.date }}</li>
+     {#<!--  <li>{{ thermo.date|date("m/d/y") }}</li>
     <li>{{ thermo.temperature }}</li>
-    <li>{{ thermo.temperature }}</li>
-
+    <li>{{ thermo.hygrometrie }}</li>
+    -->#}
 <script>
     var ctx = document.getElementById('graph1').getContext('2d')
 
@@ -18,11 +88,11 @@
         labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
         datasets: [{
 
-            label:'temperature',
+            label:'temper',
             data :['19','22', '19', '23' ]
         },
             {
-                label: 'hygrometrie',
+                label: 'hygrom',
                 data: ['49','50','48','47']
             },
         ]
@@ -34,6 +104,7 @@
         option: option
     }
     var graph1 = new Chart(ctx, config)
-</script>
+    </script>
+
     {%endblock %}
 

@@ -2,41 +2,92 @@
 
 
 {% block body %}
-    <link href="{{ asset('courbe.css') }}" rel="stylesheet">
+    <link href="{{ asset('vueEnsemble.css') }}" rel="stylesheet">
+
+    {% if app.user %}
+        <div class="offset-9 col-mb-2">
+            <h3> Bienvenue {{ app.user.nom }}</h3>
+        </div>
+    {% endif %}
 
 <div class="container">
     <div class="text-center">
         <br>
-        <h2>Mes thermo-hygromètres</h2>
+        <h2>Vos thermo-hygromètres</h2>
     </div>
-    {% if app.user %}
-        <div class="mb-3">
-            <h1>{{ app.user.nom }}</h1>
-        </div>
-    {% endif %}
+
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
+            <h4>Rechercher:</h4>
             <!--formulaire de recherche-->
-            {{ form_start }}
+           {# {{ form.date|date("m/d/y") }}#}
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Entre</label>
+                <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Et</label>
+                <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Nom de la salle</label>
+                <input type="text" class="form-control" placeholder="" id="inputDefault">
+            </div>
 
-            {{ form_end }}
+            <div class="col-lg-2">
+                <button type="submit" class="btn btn-lg btn-primary">Rechercher</button>
+            </div>
         </div>
-            <div class ="col-md-9">
-                <div class="grid">
-                    <canvas id="graph1"></canvas>
+
+
+        <div class ="col-md-9">
+            <div class="grid">
+                <a href="{{ path('detail') }}">
+               <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header ">salle nom</div>
+                    <div class="card-body">
+                        <canvas id="graph1"></canvas>
+                    </div>
+                </div>
+            </a>
+                <a href="{{ path('detail') }}">
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header ">salle nom</div>
+                    <div class="card-body">
+                        <canvas id="graph2"></canvas>
+                    </div>
+                </div>
+                </a>
+                <a href="{{ path('detail') }}">
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header ">salle nom</div>
+                    <div class="card-body">
+                        <canvas id="graph3"></canvas>
+                    </div>
+                </div>
+                </a>
+                <a href="{{ path('detail') }}">
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                     <div class="card-header ">salle nom</div>
+                     <div class="card-body">
+                        <canvas id="graph4"></canvas>
+                      </div>
+                </div>
+                </a>
+                    <!--
                     <canvas id="graph2"></canvas>
                     <canvas id="graph3"></canvas>
                     <canvas id="graph4"></canvas>
+-->
 
 
-
-                </div>
-    </div>
 
 </div>
+             </div>
+    </div>
 </div>
 
 
@@ -50,11 +101,11 @@
             labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
             datasets: [{
 
-                label:'temperature',
+                label:'temper',
                 data :['19','22', '19', '23' ]
             },
                 {
-                    label: 'hygrometrie',
+                    label: 'hygrom',
                     data: ['49','50','48','47']
                 },
             ]
@@ -74,11 +125,11 @@
             labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
             datasets: [{
 
-                label:'temperature',
+                label:'temper',
                 data :['19','22', '19', '23' ]
             },
                 {
-                    label: 'hygrometrie',
+                    label: 'hygrom',
                     data: ['49','50','48','47']
                 },
             ]
@@ -97,11 +148,11 @@
             labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
             datasets: [{
 
-                label:'temperature',
+                label:'temper',
                 data :['19','22', '19', '23' ]
             },
                 {
-                    label: 'hygrometrie',
+                    label: 'hygrom',
                     data: ['49','50','48','47']
                 },
             ]
@@ -121,11 +172,11 @@
             labels :['01/03/2020' , '02/03/2020' ,'03/03/2020' , '04/03/2020'],
             datasets: [{
 
-                label:'temperature',
+                label:'temper',
                 data :['19','22', '19', '23' ]
             },
                 {
-                    label: 'hygrometrie',
+                    label: 'hygrome',
                     data: ['49','50','48','47']
                 },
             ]
