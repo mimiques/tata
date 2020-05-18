@@ -1,6 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="text-center">
+        <h1>Mes salles</h1>
+        <a href="{{ path('creerSalle') }}" class="btn btn-sm btn-primary">Ajouter</a>
 
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <h4>Rechercher:</h4>
+                <!--formulaire de recherche-->
+
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Nom de la salle</label>
+                    <input type="text" class="form-control" placeholder="" id="inputDefault">
+                </div>
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-lg btn-success">Rechercher</button>
+                </div>
+            </div>
+            <div class="col-lg-6" id="salles">
+                {% for salle in salles %}
+                    <ul class="list-group" >
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{{ path('modif',{'id': salle.id}) }}">  {{ salle.nom }}</a>
+                            <a href="{{ path('salleDelete',{'id': salle.id}) }}">Supprimer</a>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

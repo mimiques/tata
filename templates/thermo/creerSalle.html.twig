@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="jumbotron">
+        <div class="text-center">
+        <h2 >Ajouter des salles</h2>
+
+        <hr class="my-4">
+        {{ form_start(formSalle) }}
+        {{ form_row(formSalle.nom) }}
+            <button type="submit" class="btn btn-sm btn-primary" name="ajouter">Ajouter</button>
+        {{ form_end(formSalle)}}
+
+        <p class="lead">
+
+
+        </p>
+        </div>
+    </div>
+
+
+
+
+
+
+
+{% endblock %}

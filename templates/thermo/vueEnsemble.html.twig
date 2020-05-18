@@ -10,73 +10,73 @@
         </div>
     {% endif %}
 
-<div class="container">
-    <div class="text-center">
-        <br>
-        <h2>Vos thermo-hygromètres</h2>
-    </div>
-
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-2">
-            <h4>Rechercher:</h4>
-            <!--formulaire de recherche-->
-           {# {{ form.date|date("m/d/y") }}#}
-            <div class="form-group">
-                <label class="col-form-label" for="inputDefault">Entre</label>
-                <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
-            </div>
-            <div class="form-group">
-                <label class="col-form-label" for="inputDefault">Et</label>
-                <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
-            </div>
-            <div class="form-group">
-                <label class="col-form-label" for="inputDefault">Nom de la salle</label>
-                <input type="text" class="form-control" placeholder="" id="inputDefault">
-            </div>
-
-            <div class="col-lg-2">
-                <button type="submit" class="btn btn-lg btn-primary">Rechercher</button>
-            </div>
+    <div class="container">
+        <div class="text-center">
+            <br>
+            <h2>Vos thermo-hygromètres</h2>
         </div>
 
+    </div>
 
-        <div class ="col-md-9">
-            <div class="grid">
-                <a href="{{ path('detail') }}">
-               <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header ">salle nom</div>
-                    <div class="card-body">
-                        <canvas id="graph1"></canvas>
-                    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <h4>Rechercher:</h4>
+                <!--formulaire de recherche-->
+                {# {{ form.date|date("m/d/y") }}#}
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Entre</label>
+                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
                 </div>
-            </a>
-                <a href="{{ path('detail') }}">
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header ">salle nom</div>
-                    <div class="card-body">
-                        <canvas id="graph2"></canvas>
-                    </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Et</label>
+                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
                 </div>
-                </a>
-                <a href="{{ path('detail') }}">
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header ">salle nom</div>
-                    <div class="card-body">
-                        <canvas id="graph3"></canvas>
-                    </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Nom de la salle</label>
+                    <input type="text" class="form-control" placeholder="" id="inputDefault">
                 </div>
-                </a>
-                <a href="{{ path('detail') }}">
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                     <div class="card-header ">salle nom</div>
-                     <div class="card-body">
-                        <canvas id="graph4"></canvas>
-                      </div>
+
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-lg btn-primary">Rechercher</button>
                 </div>
-                </a>
+            </div>
+
+
+            <div class ="col-md-9">
+                <div class="grid">
+                    <a href="{{ path('detail') }}">
+                        <div class="card border-primary mb-3" style="max-width: 20rem;">
+                            <div class="card-header ">salles </div>
+                            <div class="card-body">
+                                <canvas id="graph1"></canvas>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{{ path('detail') }}">
+                        <div class="card border-primary mb-3" style="max-width: 20rem;">
+                            <div class="card-header ">salle nom</div>
+                            <div class="card-body">
+                                <canvas id="graph2"></canvas>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{{ path('detail') }}">
+                        <div class="card border-primary mb-3" style="max-width: 20rem;">
+                            <div class="card-header ">salle nom</div>
+                            <div class="card-body">
+                                <canvas id="graph3"></canvas>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{{ path('detail') }}">
+                        <div class="card border-primary mb-3" style="max-width: 20rem;">
+                            <div class="card-header ">salle nom</div>
+                            <div class="card-body">
+                                <canvas id="graph4"></canvas>
+                            </div>
+                        </div>
+                    </a>
                     <!--
                     <canvas id="graph2"></canvas>
                     <canvas id="graph3"></canvas>
@@ -85,10 +85,10 @@
 
 
 
-</div>
-             </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 
     </body>

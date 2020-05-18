@@ -22,8 +22,8 @@ class ThermoRepository extends ServiceEntityRepository
 *recuperation des thermo-hygros
 * @return Thermo[]
 */
-    public function findFiltres(): array
-    {
-        return $this->findAll();
-    }
+    //public function findFiltres(): array
+    //{
+    //    return $this->findAll();
+   // }
 }
