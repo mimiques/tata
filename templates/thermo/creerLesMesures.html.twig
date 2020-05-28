@@ -1,0 +1,46 @@
+{% if mesuresid is defined %}
+    {% set title = 'Modifier les mesures' %}
+    {% set btnvalue = 'Mettre à jour' %}
+    {% set btnsup = 'Supprimer' %}
+{% else%}
+    {% set title ='Ajouter des mesures' %}
+    {% set btnvalue = 'Enregistrer' %}
+    {% set btnsup = false %}
+{% endif %}
+
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <div class="jumbotron">
+        <div class="text-center">
+
+            <h2 >{{ title }}</h2>
+
+
+            <hr class="my-4">
+            <ul>
+                {{ form_start(formMesure) }}
+                <li typeof="date">Date : {{ form_widget(formMesure.date) }}</li>
+                <br>
+                <li>Temperature : {{ form_widget(formMesure.temperature) }}</li>
+                <br>
+                <li>Hygrometrie :  {{ form_widget(formMesure.hygrometrie) }}</li>
+                <br>
+                {#   <textarea  class="form-control" id="copier/coller" name="copier/coller" rows="3">
+                                </textarea>#}
+                <button type="submit" class="btn btn-sm btn-primary" name="ajouter">{{ btnvalue }}</button>
+               {#  <button type="submit" class="btn btn-sm btn-primary" name="supprimer">{{ btnsup }}</button>
+{% for mesure in mesures %}
+ <a href="{{ path('mesure_delete',{'id': mesure.id}) }}" >{{ btnsup }}</a>
+ {% endfor %}#}
+                <a href="{{ path('detail') }}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
+                {{ form_end(formMesure)}}
+                <br>
+
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

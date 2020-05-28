@@ -11,17 +11,21 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <h4>Rechercher:</h4>
+              <!--  <h4>Rechercher:</h4>-->
                 <!--formulaire de recherche-->
+                 {#   {{ form_start(formR) }}#}
 
                 <div class="form-group">
-                    <label class="col-form-label" for="inputDefault">Nom de la salle</label>
-                    <input type="text" class="form-control" placeholder="" id="inputDefault">
+                    {#<label class="col-form-label" for="inputDefault">Nom de la salle</label>
+                    <input type="text" class="form-control" placeholder="" id="inputDefault">#}
                 </div>
+               {#     {{ form(formR) }}#}
+                <br>
                 <div class="col-lg-2">
-                    <button type="submit" class="btn btn-lg btn-success">Rechercher</button>
+                  <!--  <button type="submit" class="btn btn-lg btn-success">Rechercher</button>-->
                 </div>
             </div>
+          {# {{ form_end(formR) }}#}
             <div class="col-lg-6" id="salles">
                 {% for salle in salles %}
                     <ul class="list-group" >

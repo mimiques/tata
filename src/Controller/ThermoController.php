@@ -4,14 +4,20 @@ namespace App\Controller;
 
 
 
+use App\Entity\Mesure;
 use App\Entity\Salle;
 use App\Entity\Thermo;
+use App\Form\MesureFormType;
+use App\Form\RechercheSalleType;
 use App\Form\SallesType;
 use App\Form\SalleType;
 use App\Form\ThermohType;
+use App\Repository\MesureRepository;
 use App\Repository\SalleRepository;
 use App\Repository\ThermoRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\OrderBy;
+use Doctrine\ORM\Query\Expr\Select;
 use phpDocumentor\Reflection\Types\Array_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -38,7 +44,7 @@ class ThermoController extends AbstractController
             'controller_name' => 'ThermoController',
         ]);
     }
-
+//accueil
     /**
      * @route("/home" , name= "home")
      * @param AuthenticationUtils $authenticationUtils
@@ -82,86 +88,181 @@ class ThermoController extends AbstractController
         ]);
     }
 
-    //fonction pour creer un thermo
-
+//creation des mesures en bdd ok dans la twig creerLesMesures
     /**
-     * @route("/detail" , name="creerThermo")
+     * @route("/creerLesMesures" , name= "creer_mesure")
      * @param Request $request
      * @param EntityManagerInterface $manager
-     * @param ThermoRepository $repository
+     * @param MesureRepository $repository
      * @return Response
      */
-
-    public function creerThermo(Request $request, EntityManagerInterface $manager,ThermoRepository $repository)
-    {
-        // création  du formulaire
-        $thermoh = new Thermo();
-
-        $form = $this->createForm(ThermohType::class , $thermoh);
+    public function creerMesure(Request $request,EntityManagerInterface $manager ,MesureRepository $repository){
+        $mesures= new Mesure();
+        $form = $this->createForm(MesureFormType::class,$mesures);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager-> persist($thermoh);
-            $manager-> flush();
+        //enregistrer  la mesure
+        if($form->isSubmitted() && $form->isValid()) {
 
-            return $this->redirectToRoute('creerThermo');
+            $manager->persist($mesures);
+            $manager->flush();
+
+            return $this->redirectToRoute('detail');
         }
-
-        return $this->render('thermo/detail.html.twig', [
-            'formThermoh' => $form->createView(),
-            'thermoh'=>$thermoh,
+        return $this->render('thermo/creerLesMesures.html.twig',[
+            'formMesure' =>$form->createView(),
+            'mesures'=>$mesures
         ]);
 
     }
 
+//fonction qui recupere les mesures date-temp-hygro de la bdd sur la twig detail
     /**
      * @route("/detail" , name="detail")
-     * @param ThermoRepository $repo
+     * @param Request $request
+     * @param $id
+     * @param EntityManagerInterface $manager
+     * @param ThermoRepository $repository
      * @return Response
      */
-    public function afficherDetail()
+    public function detail(Request $request, EntityManagerInterface $manager,ThermoRepository $repository)
     {
 
-        $repo = $this->getDoctrine()->getRepository(ThermoRepository::class);
+        $repo = $this->getDoctrine()->getRepository(Salle::class);
 
-        $thermos = $repo->findAll();
+        $salles = $repo->findAll();
 
-        return $this->render('thermo/gererSalle.html.twig',[
-                'thermos' => $thermos,
-            ]
-        );
+        //recuperation dans la bdd
+        $repo = $this->getDoctrine()->getRepository(Mesure::class);
 
-         //$tabThermos = array(
-         //  'date' =>'03/01/2020',
-         //   'temperature'=>25,
-          //  'hygrometrie' => 35,
-
-       // );
-
-//essaie pour afficher ce que j'insere dans le textatrea
-            //if (isset($_POST['copier/coller']))
-            //  echo $_POST['copier/coller'];
-
-//var_dump($tabThermos);
+        //afficher par odre des dates
+        $mesures = $repo->findBy(array(), array('date' => 'ASC'));
 
 
 
-       // $repository = $this->getDoctrine()->getRepository(Thermo::class);
-      //  $thermo = $repository->findAll();
+        return $this->render('thermo/detail.html.twig', [
 
+            'mesures' => $mesures,
+            'salles'=>$salles
 
-      //  return $this->render('thermo/detail.html.twig'
-      //      , [
-                //'thermo' => $thermo,
-         //     'tabThermos' => $tabThermos,
+        ]);
 
+    }
 
-         //  ]);
+//test ok
+    /**
+     * @route ("/test/{id}", name ="salleId")
+     * @param $id
+     * @return Response
+     */
+    public function salleId($id,Request $request){
+       $repo = $this->getDoctrine()->getRepository(Salle::class);
+        $sallesid = $repo->find($id);
+
+          $mesure = new Mesure();
+         $mesure->setDate(new \DateTime('2020-01-01'));
+        $mesure->setTemperature('28');
+        $mesure->setHygrometrie('51');
+        $sallesid->setMesure($mesure);
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($sallesid);
+        $em->flush();
+       // recupere l'id de la mesure pas ok!!!
+       /* $repository = $this->getDoctrine()->getRepository(Mesure::class);
+        $mesures = $repository->find($id);
+
+        $em=$this->getDoctrine()->getManager();
+        //on recupere la salle $id
+        $sallesid = $em
+            ->getRepository(Salle::class)
+            ->find($id);
+
+        $listMesures = $em
+            ->getRepository(Mesure::class)
+            ->findBy(array('nom'=>$sallesid));
+$sallesid->getMesure();*/
+
+        return $this->render('thermo/test.html.twig',[
+            'sallesid'=>$sallesid,
+            // 'listMesures'=>$listMesures,
+             'mesure'=>$mesure,
+
+        ]);
     }
 
 
+//fonction modifier les mesures par l'id ok
+    /**
+     * @route ("/creerLesMesures/modif/{id}" , name = "modif_Mesure")
+     * @param Mesure $mesures
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function modifierMesure(Mesure $mesures,Request $request,EntityManagerInterface $manager){
 
+
+        $form = $this->createForm(MesureFormType::class, $mesures);
+
+        $form->handleRequest($request);
+
+//enregistrer les mesures
+        if($form->isSubmitted() && $form->isValid()){
+
+            $manager->flush();
+
+            return $this->redirectToRoute('detail');
+        }
+
+        return $this->render('thermo/creerLesMesures.html.twig',[
+            'formMesure' =>$form->createView(),
+            'mesuresid' => $mesures
+        ]) ;
+    }
+
+//fonction supprimer les mesures ok seulement sur la twig gerer les mesures!!
+    /**
+     * @route ("/creerLesMesures/modif/{id}" , name = "mesure_delete")
+     * @ParamConverter("post", options={"id" ="post_id"})
+     * @param Mesure $mesure
+     * @return Response
+     */
+    public function supprimerMesures(Mesure $mesure){
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($mesure);
+        $manager->flush();
+
+        // return new Response('Salle supprimée');
+        return $this->redirectToRoute('detail');
+
+        return $this->render('thermo/creerLesMesures.html.twig',[
+            'mesure'=>$mesure
+        ]);
+
+    }
+
+//afficher les mesures stocké en bdd dans la twig gererLesMesures ok
+    /**
+     * @route("/gererLesMesures" , name= "affichage_mesure")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param MesureRepository $mesures
+     * @return Response
+     */
+    public function afficherMesure(Request $request,EntityManagerInterface $manager){
+
+        $repository = $this->getDoctrine()->getRepository(Mesure::class);
+        $mesures = $repository->findBy(array(), array('date' => 'DESC'));
+
+        return $this->render('thermo/gererLesMesures.html.twig', [
+            'mesures' =>$mesures
+
+        ]);
+
+    }
+
+//creation d'une salle dans la twig creerSalle ok
     /**
      * @route("/creerSalle" , name= "creerSalle")
      * @param Request $request
@@ -194,45 +295,33 @@ public function creerSalle(Request $request,EntityManagerInterface $manager, Sal
             'salles' =>$salles
       ]) ;
 }
-    //gerer les salles
-//par la suite afficher le detail des salles par leur id?
-    /**
-     * @route("/gererSalle" , name = "salle")
-     * @param $id
-     * @return Response
-     */
-  /*  public function afficherSalle($id)
-    {
-        $repository = $this->getDoctrine()->getRepository(Salle::class);
-        $salles = $repository->find($id);
 
-
-        return $this->render('thermo/gererSalle.html.twig',[
-            'salles' => $salles,
-        ]);
-
-    }*/
-
-
+//affichage de la salle dans la twig gererSalle ok
     /**
      * @route("/gererSalle" , name = "salle")
      * @param SalleRepository $repo
      * @return Response
      */
-     public function afficherSalle()
+     public function afficherSalle(Request $request)
       {
+          $search =new Salle();
+          $formR = $this->createForm(RechercheSalleType::class, $search);
+
+          $formR->handleRequest($request);
+
           $repo = $this->getDoctrine()->getRepository(Salle::class);
 
           $salles = $repo->findAll();
 
           return $this->render('thermo/gererSalle.html.twig',[
-              'salles' => $salles
+              'salles' => $salles,
+                  'formR' =>$formR->createView(),
               ]
               );
       }
 
-      //Modifier une salle
 
+//Modifier une salle dans la twig gerersalle ok
     /**
      * @Route("/creerSalle/modif/{id}" , name="modif")
      * @param Salle $salles
@@ -256,10 +345,12 @@ public function creerSalle(Request $request,EntityManagerInterface $manager, Sal
 
         return $this->render('thermo/creerSalle.html.twig',[
             'formSalle' =>$form->createView(),
-            'salles' =>$salles
+            'sallesid' =>$salles
         ]) ;
 }
-      //Suprimer une salle ok
+
+
+//Suprimer une salle dans la twig gererSalle ok
     /**
      * @Route("/gererSalle/delete/{id}" , name="salleDelete")
      * @ParamConverter("post", options={"id" ="post_id"})
@@ -280,11 +371,11 @@ public function creerSalle(Request $request,EntityManagerInterface $manager, Sal
 
     }
 
+
     /**
      * @route("/detail" , name= "graph")
      * @return Response
      */
-
     public function creerGraphique(){
         //$graph1=new Chart();
 

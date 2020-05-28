@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ sallesid.nom }}</h1>
+
+     {{ mesure.date|date('d/m/Y') }}
+         {{ mesure.temperature }}
+         {{ mesure.hygrometrie }}
+  {#     {{ mesures.date|date('d/m/Y') }}
+         {{ mesures.temperature }}
+         {{ mesures.hygrometrie }}
+    {{ listMesures }}#}
+
+
+
+{% endblock %}

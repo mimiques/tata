@@ -27,12 +27,12 @@ class Salle
      */
     private $nom;
 
-   // /**
-    // * une salle à potentiellement plusieurs thermo
-     //* @ORM\OneToMany(targetEntity="App\Entity\Thermo" , mappedBy="salles")
-   //  * @ORM\JoinColumn(name="thermo_id", referencedColumnName="id")
-   //  */
-   // private $thermo;
+
+    /**
+    /* une salle à plusieurs mesures et on se donne le droit de créer une salle sans mesure
+    /* @ORM\OneToOne(targetEntity="App\Entity\Mesure" , cascade={"persist"} )
+     */
+    private $mesure;
 
 
     public function getId(): ?int
@@ -52,39 +52,13 @@ class Salle
         return $this;
     }
 
- //   public function __construct()
-   // {
-   //     $this->thermo = new ArrayCollection();
-   // }
+    public function setMesure(Mesure $mesure = null){
+        $this->mesure = $mesure;
+    }
 
-   // /**
-    // * @return Collection|Thermo[]
-    // */
-    //public function getThermo(): Collection
-  //  {
-    //    return $this->thermo;
-  //  }
 
-   // public function addThermo(Thermo $thermo): self
-   // {
-   //     if (!$this->thermo->contains($thermo)) {
-    //        $this->thermo[] = $thermo;
-    //        $thermo->setSalles($this);
-    //    }
-
-    //    return $this;
-    //}
-
-   // public function removeThermo(Thermo $thermo): self
-   //{
-    //    if ($this->thermo->contains($thermo)) {
-    //        $this->thermo->removeElement($thermo);
-    //        // set the owning side to null (unless already changed)
-    //        if ($thermo->getSalles() === $this) {
-     //           $thermo->setSalles(null);
-     //       }
-     //   }
-
-    //   return $this;
-    //}
+    public function getMesure()
+    {
+        return $this->mesure;
+    }
 }

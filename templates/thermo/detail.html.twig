@@ -3,19 +3,19 @@
 {% block body %}
     <div class="text-center">
         <br>
-        <h2>Salle nom</h2>
+      {# {% for salle in salles %}
+        <h2>{{ salle.nom }}</h2>
+        {% endfor %}#}
+        <h2>salle.nom</h2>
     </div>
 
     <div class="container">
-
-
-
         <div class="row">
             <div class="col-md-2">
-                <h4>Rechercher:</h4>
-                <!--formulaire de recherche-->
+                {#  <h4>Rechercher:</h4>
+                <!--formulaire de recherche
                 {# {{ form.date|date("m/d/y") }}#}
-                <div class="form-group">
+               <!-- <div class="form-group">
                     <label class="col-form-label" for="inputDefault">Entre</label>
                     <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
                 </div>
@@ -25,64 +25,72 @@
                 </div>
                 <div class="col-lg-2">
                     <button type="submit" class="btn btn-lg btn-success">Rechercher</button>
-                </div>
+                </div>-->
+
             </div>
             <div class="col-lg-6 ">
                 <canvas id="graph1"></canvas>
+
                 <form name="textarea"  >
                     <div class="form-group">
                         <label for="copier/coller"> </label>
-                       {# <textarea  class="form-control" id="copier/coller" name="copier/coller" rows="3">
-                         </textarea>#}
-                        {{ form_start(formThermoh) }}
-                        {{ form_row(formThermoh.date)}}
-                        {{ form_row(formThermoh.temperature) }}
-                        {{ form_row(formThermoh.hygrometrie) }}
+                        <textarea  class="form-control" id="copier/coller" name="copier/coller" rows="3">
+                         </textarea>
+                        <button type="submit" class="btn btn-sm btn-success" name="enregistrer" value="enregistrer">Enregistrer</button>
 
-                         <button type="submit" class="btn btn-sm btn-success" name="enregistrer" value="enregistrer">Enregistrer</button>
-                        {{ form_end(formThermoh) }}
                     </div>
                 </form>
             </div>
 
             <div class="col-lg-4">
-
-                <table class="table table-hover">
+                <table class="table table-hover" >
                     <thead>
-                    <tr class="table-success">
 
-                        <th scope="col">date</th>
-                        <th scope="col">temperature</th>
-                        <th scope="col">hygrométrie</th>
-                    </tr>
+                    <tr class="table-success"  ><a href="{{ path('affichage_mesure') }}">
+                            <th scope="col">date</th>
+                            <th scope="col">temperature</th>
+                            <th scope="col">hygrométrie</th>
+                        </a>   </tr>
+
                     </thead>
-                 {#  {% for thermo in thermos %}
-                        <tr>
-                            <td>{{ thermos.date|date('d/m/Y') }}</td>
-                            <td> {{ thermos.temperature }}</td>
-                            <td> {{ thermos.hygrometrie}}</td>
+                    {% for mesure in mesures %}
+                        <tr onclick="location.href='{{ path('modif_Mesure',{'id': mesure.id}) }}', target='_blank';;" onMouseOver="this.style.cursor='pointer'; this.bgColor = '009999'; " onMouseOut ="this.bgColor = 'FFFFFF'">
+                            <td>{{ mesure.date|date('d/m/Y') }}</td>
+                            <td>{{ mesure.temperature }}°C</td>
+                            <td>{{ mesure.hygrometrie }}%</td>
                         </tr>
-                    {% endfor %}#}
+                    {% endfor %}
                 </table>
+                <br>
+                <div class="text-center">
+                    <a href="{{ path('creer_mesure') }}" class="btn btn-sm btn-primary" name="ajouter">Ajouter</a></div>
             </div>
         </div>
     </div>
 
     <script>
         var ctx = document.getElementById('graph1').getContext('2d')
-        var date = document.getElementsByName('tabThermos.date|date(\'d/m/Y\')')
+
 
         var data = {
-            labels :['01/03/2020', '02/03/2020' ,'03/03/2020' , '04/03/2020'],
+            labels :[{% for mesure in mesures %}
+                '{{ mesure.date|date('d/m/Y') }}',
+                {% endfor %}
+            ],
             datasets: [{
 
                 label:'temper',
-                data :['25','22', '19', '23' ]
+                data :[ {% for mesure in mesures %}
+                    {{ mesure.temperature }},
+                    {% endfor %} ]
             },
                 {
                     label: 'hygrom',
-                    data: ['51','50','48','47']
-                },
+                    data: [{% for mesure in mesures %}
+                        {{ mesure.hygrometrie}},
+                        {% endfor %}
+                    ]
+                }
             ]
         }
         var option
