@@ -123,29 +123,23 @@ class ThermoController extends AbstractController
 
 //fonction qui recupere les mesures date-temp-hygro de la bdd sur la twig detail
     /**
-     * @route("/detail/" , name="detail")
+     * @route("/detail/{id}" , name="detail")
      * @param Request $request
-     *
+     * @param $id
      * @param EntityManagerInterface $manager
      * @param ThermoRepository $repository
      * @return Response
      */
-    public function detail(Request $request, EntityManagerInterface $manager, ThermoRepository $repository)
+    public function detail(Request $request, EntityManagerInterface $manager, ThermoRepository $repository, $id)
     {
-
-        //$repo = $this->getDoctrine()->getRepository(Salle::class);
-
-        //$sallesid = $repo->find($id);
-
+        $repo = $this->getDoctrine()->getRepository(Salle::class);
+        $sallesid = $repo->find($id);
         //recuperation dans la bdd
         $repo = $this->getDoctrine()->getRepository(Mesure::class);
         //afficher par odre des dates
-        $mesures = $repo->findBy(array(), array('date' => 'ASC'));
-
+        $mesures = $repo->findBy(array('salle'=>$sallesid), array('date' => 'ASC'));
         return $this->render('thermo/detail.html.twig', [
-
             'mesures' => $mesures,
-            //'sallesid'=>$sallesid
 
         ]);
 
@@ -165,7 +159,7 @@ class ThermoController extends AbstractController
         $mesures = $repo->findBy(array('salle'=>$sallesid), array('date' => 'ASC'));
         return $this->render('thermo/salle_mesures.html.twig',[
             'sallesid'=>$sallesid,
-            'mesures'=>$mesures,
+            'mesures'=>$mesures
         ]);
     }
 
