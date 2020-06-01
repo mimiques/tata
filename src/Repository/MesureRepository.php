@@ -18,24 +18,30 @@ class MesureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Mesure::class);
     }
-
-
-
-     /**
-     * @return Mesure[] Returns an array of Mesure objects
-     */
 /*
-    public function trieParDate()
-    {
-        return $this->createQueryBuilder('mesures')
-
-            ->orderBy('date', 'ASC')
-
-            ->getQuery()
-            ->getResult()
-        ;
-
+    public function myFindAll(){
+        $queryBuilder = $this ->_em->createQueryBuilder()
+            ->select('m')
+            ->from($this->_entityName,'m')
+            ;
+        $query = $queryBuilder->getQuery();
+        $results = $query->getResult();
+        return $results;
     }*/
+
+
+public function findByIdJoinedToSalle($mesureId){
+        $entityManager=$this->getEntityManager();
+
+        $query= $entityManager->createQuery(
+            'SELECT m ,s
+            FROM App\Entity\Mesure m
+            INNER JOIN m.salle s
+            WHERE m.id = :id'
+        )->setParameter('id',$mesureId);
+
+       return $query->getOneOrNullResult();
+}
 
 
     /*

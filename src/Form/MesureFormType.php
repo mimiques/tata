@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Mesure;
 
+use App\Entity\Salle;
 use Doctrine\DBAL\Types\DateType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,6 +20,11 @@ class MesureFormType extends AbstractType
             ->add('date')
             ->add('temperature')
             ->add('hygrometrie')
+            ->add('salle',EntityType::class,[
+                'class'=>Salle::class,
+                'choice_label'=>'nom'
+            ])
+
         ;
 
     }
@@ -26,6 +33,7 @@ class MesureFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Mesure::class,
+
         ]);
     }
 }

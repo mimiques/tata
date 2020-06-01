@@ -30,7 +30,7 @@ class Salle
 
     /**
     /* une salle à plusieurs mesures et on se donne le droit de créer une salle sans mesure
-    /* @ORM\OneToOne(targetEntity="App\Entity\Mesure" , cascade={"persist"} )
+    /* @ORM\OneToMany(targetEntity="App\Entity\Mesure" ,mappedBy="salle" )
      */
     private $mesure;
 

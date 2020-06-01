@@ -28,18 +28,20 @@
                 <br>
                 <li>Hygrometrie :  {{ form_widget(formMesure.hygrometrie) }}</li>
                 <br>
+
                 {#   <textarea  class="form-control" id="copier/coller" name="copier/coller" rows="3">
                                 </textarea>#}
                 <button type="submit" class="btn btn-sm btn-primary" name="ajouter">{{ btnvalue }}</button>
-               {#  <button type="submit" class="btn btn-sm btn-primary" name="supprimer">{{ btnsup }}</button>
-{% for mesure in mesures %}
- <a href="{{ path('mesure_delete',{'id': mesure.id}) }}" >{{ btnsup }}</a>
- {% endfor %}#}
-                <a href="{{ path('detail') }}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
+                {#  <button type="submit" class="btn btn-sm btn-primary" name="supprimer">{{ btnsup }}</button>}#}
+
+                <a href="{{ path('vueEnsemble') }}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
                 {{ form_end(formMesure)}}
                 <br>
 
             </ul>
+          {#  {% for mesure in mesures %}
+                <a href="{{ path('mesure_delete',{'id': mesure.id}) }}" >Supprimer</a>
+            {% endfor %}#}
         </div>
     </div>
 

@@ -31,6 +31,13 @@ class Mesure
      */
     private $hygrometrie;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Salle", inversedBy="mesure")
+     * @ORM\JoinColumn(nullable=false)
+     */
+
+    private $salle;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,4 +78,22 @@ class Mesure
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSalle()
+    {
+        return $this->salle;
+    }
+
+    /**
+     * @param mixed $salle
+     */
+    public function setSalle($salle): void
+    {
+        $this->salle = $salle;
+
+    }
+
 }
