@@ -3,74 +3,34 @@
 
 {% block body %}
     <link href="{{ asset('vueEnsemble.css') }}" rel="stylesheet">
-
     {% if app.user %}
         <div class="offset-9 col-mb-2">
             <h3> Bienvenue {{ app.user.nom }}</h3>
         </div>
     {% endif %}
-
     <div class="container">
         <div class="text-center">
             <br>
             <h2>Vos thermo-hygromètres</h2>
         </div>
-
     </div>
-
     <div class="container">
-            <div class ="col-md-9">
-                <div class="grid">
-
-                    <a href="{{ path('detail', {id:4}) }}">
+        <div class ="col-md-9">
+            <div class="grid">
+                {% for salle in salles %}
+                    <a href="{{ path('detail', {'id': salle.id}) }}">
                         <div class="card border-primary mb-3" style="max-width: 20rem;">
-                            <div class="card-header ">salle 4</div>
+                            <div class="card-header ">{{ salle.nom }}</div>
                             <div class="card-body">
                                 <canvas id="graph1"></canvas>
                             </div>
                         </div>
                     </a>
-
-                    <a href="{{ path('detail', {id:10}) }}">
-                        <div class="card border-primary mb-3" style="max-width: 20rem;">
-                            <div class="card-header ">salle 10</div>
-                            <div class="card-body">
-                                <canvas id="graph2"></canvas>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="{{ path('detail', {id:14}) }}">
-                        <div class="card border-primary mb-3" style="max-width: 20rem;">
-                            <div class="card-header ">salle 14</div>
-                            <div class="card-body">
-                                <canvas id="graph3"></canvas>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="{{ path('detail', {id:21}) }}">
-                        <div class="card border-primary mb-3" style="max-width: 20rem;">
-                            <div class="card-header ">salle 21</div>
-                            <div class="card-body">
-                                <canvas id="graph4"></canvas>
-                            </div>
-                        </div>
-                    </a>
-                    <!--
-                    <canvas id="graph2"></canvas>
-                    <canvas id="graph3"></canvas>
-                    <canvas id="graph4"></canvas>
--->
-
-
-
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 
-
-    </body>
-    </html>
 
     <script>
         var ctx = document.getElementById('graph1').getContext('2d')
@@ -81,6 +41,7 @@
 
                 label:'temper',
                 data :['19','22', '19', '23' ]
+
             },
                 {
                     label: 'hygrom',

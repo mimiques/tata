@@ -71,18 +71,10 @@ class ThermoController extends AbstractController
     /**
      * @route("/vueEnsemble" , name="vueEnsemble")
      */
-    public function courbe()
+    public function vuEnsemble()
     {
         $repo = $this->getDoctrine()->getRepository(Salle::class);
-
         $salles = $repo->findAll();
-
-        //filtre
-       // $data = new Filtres();
-      //  $form = $this->createForm(Filtres::class, $data);
-
-     //  $thermo = $repository->findFiltres();
-
         return $this->render('thermo/vueEnsemble.html.twig',[
             'salles' =>$salles
         ]);
@@ -92,33 +84,28 @@ class ThermoController extends AbstractController
 
     /**
      * @route("/creerLesMesures" , name= "creer_mesure")
-
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param MesureRepository $repository
      * @return Response
      */
-    public function creerMesure(Request $request,EntityManagerInterface $manager ,MesureRepository $repository){
+    public function creerMesure(Request $request,EntityManagerInterface $manager ,MesureRepository $repository)
+    {
         $mesures= new Mesure();
         $form = $this->createForm(MesureFormType::class,$mesures);
-
         $form->handleRequest($request);
-
         //enregistrer  la mesure
         if($form->isSubmitted() && $form->isValid()) {
-
-           // $mesures->getSalle();
-
             $manager->persist($mesures);
             $manager->flush();
-
-            return $this->redirectToRoute('salleId');
+            return $this->redirectToRoute('detail',[
+                'id'=>$mesures->getSalle()->getId()
+            ]);
         }
         return $this->render('thermo/creerLesMesures.html.twig',[
             'formMesure' =>$form->createView(),
             'mesures'=>$mesures
         ]);
-
     }
 
 //fonction qui recupere les mesures date-temp-hygro de la bdd sur la twig detail
@@ -140,6 +127,7 @@ class ThermoController extends AbstractController
         $mesures = $repo->findBy(array('salle'=>$sallesid), array('date' => 'ASC'));
         return $this->render('thermo/detail.html.twig', [
             'mesures' => $mesures,
+            'sallesid'=>$sallesid
 
         ]);
 
