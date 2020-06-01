@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ sallesid.nom }}</h1>
+
+    <div class="col-lg-4">
+        <table class="table table-hover" >
+            <thead>
+
+            <tr class="table-success"  ><a href="{{ path('affichage_mesure') }}">
+                    <th scope="col">date</th>
+                    <th scope="col">temperature</th>
+                    <th scope="col">hygrométrie</th>
+                </a>   </tr>
+
+            </thead>
+            {% for mesure in mesures %}
+                <tr>
+                    <td>{{ mesure.date|date('d/m/Y') }}</td>
+                    <td>{{ mesure.temperature }}</td>
+                    <td>{{ mesure.hygrometrie }}</td>
+                </tr>
+            {% endfor %}
+        {#  {% for mesure in mesures %}
+                 <tr onclick="location.href='{{ path('modif_Mesure',{'id': mesure.id}) }}', target='_blank';;" onMouseOver="this.style.cursor='pointer'; this.bgColor = '009999'; " onMouseOut ="this.bgColor = 'FFFFFF'">
+                     <td>{{ sallesid.mesure.date|date('d/m/Y')}}</td>
+                     <td>{{ mesure.temperature }}°C</td>
+                     <td>{{ mesure.hygrometrie }}%</td>
+                 </tr>
+             {% endfor %}#}
+        </table>
+        <br>
+        <div class="text-center">
+            <a href="{{ path('creer_mesure') }}" class="btn btn-sm btn-primary" name="ajouter">Ajouter</a></div>
+    </div>
+
+{% endblock %}

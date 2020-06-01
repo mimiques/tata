@@ -67,7 +67,7 @@ class ThermoController extends AbstractController
     }
 
 
-    //pour le moment c juste pour le visuel
+//pour le moment c juste pour le visuel
     /**
      * @route("/vueEnsemble" , name="vueEnsemble")
      */
@@ -89,8 +89,10 @@ class ThermoController extends AbstractController
     }
 
 //creation des mesures en bdd ok dans la twig creerLesMesures
+
     /**
      * @route("/creerLesMesures" , name= "creer_mesure")
+
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param MesureRepository $repository
@@ -105,10 +107,12 @@ class ThermoController extends AbstractController
         //enregistrer  la mesure
         if($form->isSubmitted() && $form->isValid()) {
 
+           // $mesures->getSalle();
+
             $manager->persist($mesures);
             $manager->flush();
 
-            return $this->redirectToRoute('detail');
+            return $this->redirectToRoute('salleId');
         }
         return $this->render('thermo/creerLesMesures.html.twig',[
             'formMesure' =>$form->createView(),
@@ -119,78 +123,51 @@ class ThermoController extends AbstractController
 
 //fonction qui recupere les mesures date-temp-hygro de la bdd sur la twig detail
     /**
-     * @route("/detail" , name="detail")
+     * @route("/detail/" , name="detail")
      * @param Request $request
-     * @param $id
+     *
      * @param EntityManagerInterface $manager
      * @param ThermoRepository $repository
      * @return Response
      */
-    public function detail(Request $request, EntityManagerInterface $manager,ThermoRepository $repository)
+    public function detail(Request $request, EntityManagerInterface $manager, ThermoRepository $repository)
     {
 
-        $repo = $this->getDoctrine()->getRepository(Salle::class);
+        //$repo = $this->getDoctrine()->getRepository(Salle::class);
 
-        $salles = $repo->findAll();
+        //$sallesid = $repo->find($id);
 
         //recuperation dans la bdd
         $repo = $this->getDoctrine()->getRepository(Mesure::class);
-
         //afficher par odre des dates
         $mesures = $repo->findBy(array(), array('date' => 'ASC'));
-
-
 
         return $this->render('thermo/detail.html.twig', [
 
             'mesures' => $mesures,
-            'salles'=>$salles
+            //'sallesid'=>$sallesid
 
         ]);
 
     }
 
-//test ok
+//ok
     /**
-     * @route ("/test/{id}", name ="salleId")
+     * @route ("/salle_mesures/{id}", name ="salle_mesures")
      * @param $id
      * @return Response
      */
-    public function salleId($id,Request $request){
-       $repo = $this->getDoctrine()->getRepository(Salle::class);
+    public function salle_mesures($id,Request $request){
+        $repo = $this->getDoctrine()->getRepository(Salle::class);
         $sallesid = $repo->find($id);
-
-          $mesure = new Mesure();
-         $mesure->setDate(new \DateTime('2020-01-01'));
-        $mesure->setTemperature('28');
-        $mesure->setHygrometrie('51');
-        $sallesid->setMesure($mesure);
-        $em=$this->getDoctrine()->getManager();
-        $em->persist($sallesid);
-        $em->flush();
-       // recupere l'id de la mesure pas ok!!!
-       /* $repository = $this->getDoctrine()->getRepository(Mesure::class);
-        $mesures = $repository->find($id);
-
-        $em=$this->getDoctrine()->getManager();
-        //on recupere la salle $id
-        $sallesid = $em
-            ->getRepository(Salle::class)
-            ->find($id);
-
-        $listMesures = $em
-            ->getRepository(Mesure::class)
-            ->findBy(array('nom'=>$sallesid));
-$sallesid->getMesure();*/
-
-        return $this->render('thermo/test.html.twig',[
+        $repo = $this->getDoctrine()->getRepository(Mesure::class);
+        //afficher par odre des dates
+        $mesures = $repo->findBy(array('salle'=>$sallesid), array('date' => 'ASC'));
+        return $this->render('thermo/salle_mesures.html.twig',[
             'sallesid'=>$sallesid,
-            // 'listMesures'=>$listMesures,
-             'mesure'=>$mesure,
-
+            'mesures'=>$mesures,
         ]);
     }
-
 
 //fonction modifier les mesures par l'id ok
     /**
@@ -223,24 +200,25 @@ $sallesid->getMesure();*/
 
 //fonction supprimer les mesures ok seulement sur la twig gerer les mesures!!
     /**
-     * @route ("/creerLesMesures/modif/{id}" , name = "mesure_delete")
+     * @route ("/creerLesMesures/delete/{id}" , name = "mesure_delete")
      * @ParamConverter("post", options={"id" ="post_id"})
-     * @param Mesure $mesure
+     * @param Mesure $mesures
      * @return Response
      */
-    public function supprimerMesures(Mesure $mesure){
+    public function supprimerMesures(Mesure $mesures){
         $manager = $this->getDoctrine()->getManager();
-        $manager->remove($mesure);
+        $manager->remove($mesures);
         $manager->flush();
 
         // return new Response('Salle supprimée');
-        return $this->redirectToRoute('detail');
+        return $this->redirectToRoute('affichage_mesure');
 
         return $this->render('thermo/creerLesMesures.html.twig',[
-            'mesure'=>$mesure
+            'mesures'=>$mesures
         ]);
 
     }
+
 
 //afficher les mesures stocké en bdd dans la twig gererLesMesures ok
     /**
