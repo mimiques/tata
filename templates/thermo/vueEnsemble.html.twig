@@ -14,10 +14,12 @@
             <h2>Vos thermo-hygromètres</h2>
         </div>
     </div>
+
     <div class="container">
         <div class ="col-md-9">
             <div class="grid">
                 {% for salle in salles %}
+                    {% if salle.user.id == app.user.id %}
                     <a href="{{ path('detail', {'id': salle.id}) }}">
                         <div class="card border-primary mb-3" style="max-width: 20rem;">
                             <div class="card-header ">{{ salle.nom }}</div>
@@ -26,10 +28,12 @@
                             </div>
                         </div>
                     </a>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
     </div>
+
 
 
     <script>

@@ -34,6 +34,13 @@ class Salle
      */
     private $mesure;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="salle")
+     * @ORM\JoinColumn(nullable=false)
+     */
+
+    private $user;
+
 
     public function getId(): ?int
     {
@@ -60,5 +67,21 @@ class Salle
     public function getMesure()
     {
         return $this->mesure;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
     }
 }

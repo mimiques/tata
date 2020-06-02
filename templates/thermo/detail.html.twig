@@ -4,7 +4,7 @@
     <div class="text-center">
         <br>
 
-      {#  <h2>{{ sallesid.nom }}</h2>#}
+       <h2>{{ sallesid.nom}}</h2>
 
       {#  <h2>salle.nom</h2>#}
     </div>
@@ -45,13 +45,11 @@
             <div class="col-lg-4">
                 <table class="table table-hover" >
                     <thead>
-
-                    <tr class="table-success"  ><a href="{{ path('affichage_mesure') }}">
+                    <tr class="table-success"  >
                             <th scope="col">date</th>
                             <th scope="col">temperature</th>
                             <th scope="col">hygrométrie</th>
-                        </a>   </tr>
-
+                    </tr>
                     </thead>
                     {% for mesure in mesures %}
                         <tr onclick="location.href='{{ path('modif_Mesure',{'id': mesure.id}) }}', target='_blank';;" onMouseOver="this.style.cursor='pointer'; this.bgColor = '009999'; " onMouseOut ="this.bgColor = 'FFFFFF'">

@@ -230,26 +230,20 @@ class ThermoController extends AbstractController
      * @param SalleRepository $repository
      * @return Response
      */
-public function creerSalle(Request $request,EntityManagerInterface $manager, SalleRepository $repository)
-{
-    //creation du formulaire d'une salle
-   $salles = new Salle();
-   //$select = mysqli_query($conn,"SELECT * FROM nom = "'".$_POST['nom']"'");
-
-   $form = $this->createForm(SalleType::class, $salles);
-
-    $form->handleRequest($request);
-
-//enregistrer le nom de la salle
-    if($form->isSubmitted() && $form->isValid())
+    public function creerSalle(Request $request,EntityManagerInterface $manager, SalleRepository $repository)
     {
-        $manager->persist($salles);
-        $manager->flush();
+        //creation du formulaire d'une salle
+        $salles = new Salle();
+        $form = $this->createForm(SalleType::class, $salles);
+        $form->handleRequest($request);
+        //enregistrer le nom de la salle
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($salles);
+            $manager->flush();
 
-        return $this->redirectToRoute('salle');
-
-    }
-
+            return $this->redirectToRoute('salle');
+        }
       return $this->render('thermo/creerSalle.html.twig',[
           'formSalle' =>$form->createView(),
             'salles' =>$salles
@@ -266,7 +260,6 @@ public function creerSalle(Request $request,EntityManagerInterface $manager, Sal
       {
           $search =new Salle();
           $formR = $this->createForm(RechercheSalleType::class, $search);
-
           $formR->handleRequest($request);
 
           $repo = $this->getDoctrine()->getRepository(Salle::class);
@@ -341,5 +334,5 @@ public function creerSalle(Request $request,EntityManagerInterface $manager, Sal
 
         return $this->render('thermo/detail.html.twig');
     }
-
+//fonction rechercher une salle
 }

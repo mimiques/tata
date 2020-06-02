@@ -18,16 +18,20 @@
                 <!--affichage en liste des dates en bdd-->
                 <ul class="list-group">
                    {% for mesure in mesures %}
+                       {% if mesure.salle.user.id == app.user.id %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="{{ path('modif_Mesure',{'id': mesure.id}) }}" >
-
-                            {{ mesure.date|date('d/m/Y') }} - {{ mesure.temperature }}°C - {{ mesure.hygrometrie }}%
-
+                           {{ mesure.salle.nom}} {{ mesure.date|date('d/m/Y') }}
                         </a>
+                        <span>
+                            {{ mesure.temperature }}°C
+                        </span>
+                        <span>
+                            {{ mesure.hygrometrie }}%
+                        </span>
                         <a href="{{ path('mesure_delete',{'id': mesure.id}) }}" >Supprimer</a>
-
-
                     </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
 

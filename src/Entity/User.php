@@ -37,6 +37,12 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * un user a plusieurs salle
+     * @ORM\OneToMany(targetEntity="App\Entity\Salle" ,mappedBy="user" )
+     */
+    private $salle;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
