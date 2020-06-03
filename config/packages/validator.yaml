@@ -1,3 +1,4 @@
+
 framework:
     validation:
         email_validation_mode: html5
@@ -8,4 +9,5 @@ framework:
            # App\Entity\Salle:
               #  properties:
                #     nom:
-                #        -IsFalse:{message: 'salle.nom.IsFalse'}
+             #        -IsFalse:{message: 'salle.nom.IsFalse'
+

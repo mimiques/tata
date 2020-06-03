@@ -12,10 +12,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                {#  <h4>Rechercher:</h4>
-                <!--formulaire de recherche
-                {# {{ form.date|date("m/d/y") }}#}
-               <!-- <div class="form-group">
+              {#  <h4>Rechercher:</h4>
+                formulaire de recherche
+               <div class="form-group">
                     <label class="col-form-label" for="inputDefault">Entre</label>
                     <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="inputDefault">
                 </div>
@@ -25,23 +24,21 @@
                 </div>
                 <div class="col-lg-2">
                     <button type="submit" class="btn btn-lg btn-success">Rechercher</button>
-                </div>-->
-
+                </div>#}
             </div>
             <div class="col-lg-6 ">
                 <canvas id="graph1"></canvas>
-
-                <form name="textarea"  >
+              {# a voir quand le csv ok
+               <form name="textarea"  >
+                    {{ form_start(formImport) }}
                     <div class="form-group">
-                        <label for="copier/coller"> </label>
-                        <textarea  class="form-control" id="copier/coller" name="copier/coller" rows="3">
-                         </textarea>
+                        {{ form_row(formImport.saisie) }}
+                        {{ form(formImport.salle) }}
                         <button type="submit" class="btn btn-sm btn-success" name="enregistrer" value="enregistrer">Enregistrer</button>
-
                     </div>
-                </form>
+                    {{ form_end(formImport) }}
+                </form>#}
             </div>
-
             <div class="col-lg-4">
                 <table class="table table-hover" >
                     <thead>
@@ -65,11 +62,9 @@
             </div>
         </div>
     </div>
-
+{#partie pour le graphique graphique: #}
     <script>
         var ctx = document.getElementById('graph1').getContext('2d')
-
-
         var data = {
             labels :[{% for mesure in mesures %}
                 '{{ mesure.date|date('d/m/Y') }}',

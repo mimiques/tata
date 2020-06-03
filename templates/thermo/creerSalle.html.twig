@@ -5,35 +5,25 @@
     {% set title ='Ajouter une salle' %}
     {% set btnvalue = 'Enregistrer' %}
 {% endif %}
+
 {% extends 'base.html.twig' %}
 
 {% block body %}
 
     <div class="jumbotron">
-        <div class="text-center">
-
-
-        <h2 >{{ title }}</h2>
-
-
+         <div class="text-center">
+            <h2 >{{ title }}</h2>
             <hr class="my-4">
             {{ form_start(formSalle) }}
-            <label>Nom : {{ form_widget(formSalle.nom) }}</label>
-                <button type="submit" class="btn btn-sm btn-primary" name="ajouter">{{ btnvalue }}</button>
-                <a href="{{ path('salle') }}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
+            <label>Nom : {{ form_widget(formSalle.nom) }}</label></br>
+            <label>Compte: {{ form_widget(formSalle.user) }}</label></br>
+             <br>
+            <button type="submit" class="btn btn-sm btn-primary" name="ajouter">{{ btnvalue }}</button>
+            <a href="{{ path('salle') }}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
             {{ form_end(formSalle)}}
-
             <p class="lead">
-
-
-        </p>
+            </p>
         </div>
     </div>
-
-
-
-
-
-
 
 {% endblock %}
