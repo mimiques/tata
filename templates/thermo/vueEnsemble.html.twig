@@ -11,23 +11,23 @@
     <div class="container">
         <div class="text-center">
             <br>
-            <h2>Vos thermo-hygromètres</h2>
+            <h2>Mes thermo-hygromètres</h2>
         </div>
     </div>
-
+    <br>
     <div class="container">
-        <div class ="col-md-9">
+        <div class ="offset-1 col-md-9">
             <div class="grid">
                 {% for salle in salles %}
                     {% if salle.user.id == app.user.id %}
-                    <a href="{{ path('detail', {'id': salle.id}) }}">
-                        <div class="card border-primary mb-3" style="max-width: 20rem;">
-                            <div class="card-header ">{{ salle.nom }}</div>
-                            <div class="card-body">
-                                <canvas id="graph1"></canvas>
+                        <a href="{{ path('detail', {'id': salle.id}) }}">
+                            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                                <div class="card-header ">{{ salle.nom }}</div>
+                                <div class="card-body" >
+                                    <img id="thermo" src="{{ asset('image/thermograph.png')}}"alt="" />
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     {% endif %}
                 {% endfor %}
             </div>
