@@ -18,9 +18,15 @@ class Import
 
     /**
      * @ORM\Column(type="text")
-     * @ORM\ManyToOne(targetEntity="App\Entity\Mesure" , cascade={"persist"} )
      */
     private $saisie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Salle", inversedBy="import")
+     * @ORM\JoinColumn(nullable=false)
+     */
+
+    private $salle;
 
     public function getId(): ?int
     {
@@ -37,5 +43,21 @@ class Import
         $this->saisie = $saisie;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSalle()
+    {
+        return $this->salle;
+    }
+
+    /**
+     * @param mixed $salle
+     */
+    public function setSalle($salle): void
+    {
+        $this->salle = $salle;
     }
 }

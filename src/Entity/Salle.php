@@ -41,6 +41,11 @@ class Salle
 
     private $user;
 
+    /*
+     * ORM\OneToMany(targetEntity="App\Entity\Import", mappedBy="salle")
+     */
+    private $import;
+
 
     public function getId(): ?int
     {
@@ -83,5 +88,21 @@ class Salle
     public function setUser($user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImport()
+    {
+        return $this->import;
+    }
+
+    /**
+     * @param mixed $import
+     */
+    public function setImport($import): void
+    {
+        $this->import = $import;
     }
 }

@@ -4,9 +4,11 @@ namespace App\Controller;
 
 
 
+use App\Entity\Import;
 use App\Entity\Mesure;
 use App\Entity\Salle;
 use App\Entity\Thermo;
+use App\Form\ImportFormType;
 use App\Form\MesureFormType;
 use App\Form\RechercheSalleType;
 use App\Form\SallesType;
@@ -125,10 +127,21 @@ class ThermoController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Mesure::class);
         //afficher par odre des dates
         $mesures = $repo->findBy(array('salle'=>$sallesid), array('date' => 'ASC'));
+        //creation du formulaire d'un import
+        $import = new Import();
+        $form = $this->createForm(ImportFormType::class,$import);
+        $form->handleRequest($request);
+        //enregistrer l'import
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($import);
+            $manager->flush();
+            return $this->redirectToRoute('vueEnsemble');
+        }
         return $this->render('thermo/detail.html.twig', [
             'mesures' => $mesures,
-            'sallesid'=>$sallesid
-
+            'sallesid'=>$sallesid,
+            'formImport'=>$form->createView()
         ]);
 
     }
@@ -160,20 +173,15 @@ class ThermoController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function modifierMesure(Mesure $mesures,Request $request,EntityManagerInterface $manager){
-
-
         $form = $this->createForm(MesureFormType::class, $mesures);
-
         $form->handleRequest($request);
-
 //enregistrer les mesures
         if($form->isSubmitted() && $form->isValid()){
-
             $manager->flush();
-
-            return $this->redirectToRoute('detail');
+            return $this->redirectToRoute('detail',[
+            'id'=>$mesures->getSalle()->getId()
+            ]);
         }
-
         return $this->render('thermo/creerLesMesures.html.twig',[
             'formMesure' =>$form->createView(),
             'mesuresid' => $mesures
@@ -191,12 +199,10 @@ class ThermoController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($mesures);
         $manager->flush();
-
         // return new Response('Salle supprimée');
         return $this->redirectToRoute('affichage_mesure');
-
         return $this->render('thermo/creerLesMesures.html.twig',[
-            'mesures'=>$mesures
+            'mesure'=>$mesure
         ]);
 
     }
@@ -211,15 +217,11 @@ class ThermoController extends AbstractController
      * @return Response
      */
     public function afficherMesure(Request $request,EntityManagerInterface $manager){
-
         $repository = $this->getDoctrine()->getRepository(Mesure::class);
         $mesures = $repository->findBy(array(), array('date' => 'DESC'));
-
         return $this->render('thermo/gererLesMesures.html.twig', [
             'mesures' =>$mesures
-
         ]);
-
     }
 
 //creation d'une salle dans la twig creerSalle ok
@@ -241,7 +243,6 @@ class ThermoController extends AbstractController
         {
             $manager->persist($salles);
             $manager->flush();
-
             return $this->redirectToRoute('salle');
         }
       return $this->render('thermo/creerSalle.html.twig',[
@@ -263,9 +264,7 @@ class ThermoController extends AbstractController
           $formR->handleRequest($request);
 
           $repo = $this->getDoctrine()->getRepository(Salle::class);
-
           $salles = $repo->findAll();
-
           return $this->render('thermo/gererSalle.html.twig',[
               'salles' => $salles,
                   'formR' =>$formR->createView(),
@@ -326,13 +325,24 @@ class ThermoController extends AbstractController
 
 
     /**
-     * @route("/detail" , name= "graph")
-     * @return Response
+     * @Route("/import" , name= "import")
      */
-    public function creerGraphique(){
-        //$graph1=new Chart();
+    public function creerImport(Request $request,EntityManagerInterface $manager){
+        //creation du formulaire d'un import
+        $import = new Import();
+        $form = $this->createForm(ImportFormType::class,$import);
+        $form->handleRequest($request);
+        //enregistrer l'import
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($import);
+            $manager->flush();
+            return $this->redirectToRoute('vueEnsemble');
+        }
+        return $this->render('thermo/creerImport.html.twig',[
+            'formImport' =>$form->createView(),
+        ]) ;
 
-        return $this->render('thermo/detail.html.twig');
     }
-//fonction rechercher une salle
+
 }
