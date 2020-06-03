@@ -11,30 +11,31 @@
     <br>
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
-               <!-- <h4>Rechercher:</h4>-->
-            </div>
-            <div class="col-lg-6" id="mesures">
+            <div class="offset-2 col-lg-8" id="mesures">
                 <!--affichage en liste des dates en bdd-->
-                <ul class="list-group">
-                   {% for mesure in mesures %}
-                       {% if mesure.salle.user.id == app.user.id %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{{ path('modif_Mesure',{'id': mesure.id}) }}" >
-                           {{ mesure.salle.nom}} {{ mesure.date|date('d/m/Y') }}
-                        </a>
-                        <span>
-                            {{ mesure.temperature }}°C
-                        </span>
-                        <span>
-                            {{ mesure.hygrometrie }}%
-                        </span>
-                        <a href="{{ path('mesure_delete',{'id': mesure.id}) }}" >Supprimer</a>
-                    </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
 
+                    <table class="table table-hover" >
+                        <thead>
+                        <tr class="table-success"  >
+                            <th scope="col">nom de la salle</th>
+                            <th scope="col">date</th>
+                            <th scope="col">temperature</th>
+                            <th scope="col">hygrométrie</th>
+                            <th scope="col">suppression</th>
+                        </tr>
+                        </thead>
+                        {% for mesure in mesures %}
+                            {% if mesure.salle.user.id == app.user.id %}
+                            <tr onclick="location.href='{{ path('modif_Mesure',{'id': mesure.id}) }}', target='_blank';;" onMouseOver="this.style.cursor='pointer'; this.bgColor = '009999'; " onMouseOut ="this.bgColor = 'FFFFFF'">
+                                <td>{{ mesure.salle.nom }}</td>
+                                <td>{{ mesure.date|date('d/m/Y') }}</td>
+                                <td>{{ mesure.temperature }}°C</td>
+                                <td>{{ mesure.hygrometrie }}%</td>
+                                <td> <a href="{{ path('mesure_delete',{'id': mesure.id}) }}" >Supprimer</a></td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </table>
             </div>
         </div>
     </div>
