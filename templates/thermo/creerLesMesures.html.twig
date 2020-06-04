@@ -15,10 +15,7 @@
 
     <div class="jumbotron">
         <div class="text-center">
-
             <h2 >{{ title }}</h2>
-
-
             <hr class="my-4">
             <ul>
                 {{ form_start(formMesure) }}
@@ -30,20 +27,13 @@
                 <br>
                 <li>Nom de la salle :  {{ form_widget(formMesure.salle) }}</li>
                 <br>
-                {#   <textarea  class="form-control" id="copier/coller" name="copier/coller" rows="3">
-                                </textarea>#}
+
                 <button type="submit" class="btn btn-sm btn-primary" name="ajouter">{{ btnvalue }}</button>
                 {#  <button type="submit" class="btn btn-sm btn-primary" name="supprimer">{{ btnsup }}</button>}#}
-               <a href="{{ path('vueEnsemble') }}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
+                <a href="{{ path('vueEnsemble') }}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
                 {{ form_end(formMesure)}}
                 <br>
-              {#  {% for salle in salles %}
-                <a href="{{ path('detail',{'id':salle.id} )}}" class="btn btn-sm btn-primary" name="annuler">Annuler</a>
-                {% endfor %}#}
             </ul>
-          {#  {% for mesure in mesures %}
-                <a href="{{ path('mesure_delete',{'id': mesure.id}) }}" >Supprimer</a>
-            {% endfor %}#}
         </div>
     </div>
 

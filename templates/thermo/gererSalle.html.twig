@@ -4,32 +4,22 @@
     <div class="text-center">
         <h1>Mes salles</h1>
         <a href="{{ path('creerSalle') }}" class="btn btn-sm btn-primary">Ajouter</a>
-
     </div>
-
     <br>
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                {# <h4>Rechercher:</h4>
-                  <!--formulaire de recherche-->
-               {# {{ form_start(formR) }}
-                     {{ form(formR) }}
-                  <br>
-                  <div class="col-lg-2">
-                     <button type="submit" class="btn btn-lg btn-success">Rechercher</button>
-                </div>#}
+                {# <h4>Rechercher:</h4>#}
             </div>
-          {# {{ form_end(formR) }}#}
             <div class="col-lg-6" id="salles">
                 {% for salle in salles %}
                     {% if salle.user.id == app.user.id %}
-                    <ul class="list-group" >
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{{ path('modif',{'id': salle.id}) }}">  {{ salle.nom }}</a>
-                            <a href="{{ path('salleDelete',{'id': salle.id}) }}">Supprimer</a>
-                        </li>
-                    </ul>
+                        <ul class="list-group" >
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="{{ path('modif',{'id': salle.id}) }}">  {{ salle.nom }}</a>
+                                {# <a href="{{ path('salleDelete',{'id': salle.id}) }}">Supprimer</a>#}
+                            </li>
+                        </ul>
                     {% endif %}
                 {% endfor %}
             </div>

@@ -86,6 +86,22 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSalle()
+    {
+        return $this->salle;
+    }
+
+    /**
+     * @param mixed $salle
+     */
+    public function setSalle($salle): void
+    {
+        $this->salle = $salle;
+    }
     /**
      * A visual identifier that represents this user.
      *

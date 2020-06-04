@@ -69,7 +69,7 @@ class ThermoController extends AbstractController
     }
 
 
-//pour le moment c juste pour le visuel
+//vue d'ensemble des salles de l'utilisateur->detail de la salle
     /**
      * @route("/vueEnsemble" , name="vueEnsemble")
      */
@@ -81,9 +81,8 @@ class ThermoController extends AbstractController
             'salles' =>$salles
         ]);
     }
-
+    //MESURE
 //creation des mesures en bdd ok dans la twig creerLesMesures
-
     /**
      * @route("/creerLesMesures" , name= "creer_mesure")
      * @param Request $request
@@ -207,7 +206,6 @@ class ThermoController extends AbstractController
 
     }
 
-
 //afficher les mesures stocké en bdd dans la twig gererLesMesures ok
     /**
      * @route("/gererLesMesures" , name= "affichage_mesure")
@@ -224,6 +222,7 @@ class ThermoController extends AbstractController
         ]);
     }
 
+    //SALLE
 //creation d'une salle dans la twig creerSalle ok
     /**
      * @route("/creerSalle" , name= "creerSalle")
